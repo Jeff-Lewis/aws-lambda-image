@@ -21,6 +21,13 @@ uploadlambda: lambda
 	@echo "Updating ${LAMBDA_FUNCTION_NAME} using ${AWS_PROFILE} AWS profile..."
 	aws --profile ${AWS_PROFILE} lambda update-function-code --function-name ${LAMBDA_FUNCTION_NAME} --zip-file fileb://aws-lambda-image.zip
 
+testlambda:
+	@if [ -z "${LAMBDA_FUNCTION_NAME}" ]; then (echo "Please export LAMBDA_FUNCTION_NAME" && exit 1); fi
+	@echo "Testing ${LAMBDA_FUNCTION_NAME} using ${AWS_PROFILE} AWS profile..."
+	aws --profile ${AWS_PROFILE} lambda invoke --function-name ${LAMBDA_FUNCTION_NAME} \
+		--invocation-type Event --payload file://test/fixture/s3_event_source.json /dev/null
+
+
 configtest:
 	@./bin/configtest
 
