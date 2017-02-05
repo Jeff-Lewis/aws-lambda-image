@@ -118,16 +118,23 @@ Configuration is simple, see below:
 |        | orientation | Boolean | Auto orientation if value is `true`.                                                                                                      |
 |        |     acl     |  String | Permission of S3 object. [See AWS ACL documentation](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property).  |
 
+#### Testing Configuration
+
 If you want to check how this works with your configuration, you can use `configtest`:
 
 ```bash
 $ make configtest
 ```
 
-##### ACL inheritance hierarchy
+#### ACL inheritance hierarchy
 
 If action specific `acl` parameter is not provided, the glocal `acl` parameter is taken into account. If non of both is
 set, then the new created file will inherit the `acl` settings from the original file.
+
+#### Preserving Metadata
+
+For now there is now way to decide if you want or not to populate `Metadata` from original filr to newly created files.
+By default all original `Metadata` are preserved.
 
 ### Deployment
 

@@ -14,9 +14,9 @@
   "author": "Yoshiaki Sugimoto",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "2.6.15",
+    "aws-sdk": "^2.9.0",
     "gm": "^1.23.0",
-    "image-type": "2.1.0"
+    "image-type": "3.0.0"
   },
   "devDependencies": {
     "ava": "^0.17.0",
