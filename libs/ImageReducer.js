@@ -33,7 +33,7 @@ class ImageReducer {
         const option = this.option;
 
         const input   = new ReadableStream(image.data);
-        const streams = this.createReduceProcessList(option.format || image.type.ext);
+        const streams = this.createReduceProcessList(image.type.ext);
         const chain   = new StreamChain(input);
 
         return chain.pipes(streams).run()
