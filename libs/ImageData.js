@@ -158,8 +158,9 @@ class ImageData {
     combineWithDirectory(directory, filePrefix, fileSuffix) {
         const prefix = filePrefix || "";
         const suffix = fileSuffix || "";
-        const fileName = this.baseName.substr(0, this.baseName.lastIndexOf('.'));
-        const extension = this.baseName.substr(this.baseName.lastIndexOf('.'));
+        const parsedPath = path.parse(this.baseName);
+        const fileName = parsedPath.name;
+        const extension = parsedPath.ext;
         if ( directory != null ) {
             // ./X , ../X , . , ..
             if ( directory.match(/^\.\.?\//) || directory.match(/^\.\.?$/) ) {
