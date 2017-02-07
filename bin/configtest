@@ -31,9 +31,9 @@ if ( ! fs.existsSync(configPath) ) {
 
 var eventFilename = process.argv[2];
 if (eventFilename) {
-	stdout.write(magenta + "Event filename:       " + yellow + eventFilename);
-	stdout.write("\r\n");
-	stdout.write("\r\n");
+    stdout.write(magenta + "Event filename:       " + yellow + eventFilename);
+    stdout.write("\r\n");
+    stdout.write("\r\n");
 }
 
 buffer = fs.readFileSync(configPath, {encoding: "utf8"});
@@ -43,6 +43,7 @@ try {
     config = JSON.parse(buffer);
     stdout.write("OK\r\n");
 } catch ( e ) {
+    stdout.write("\r\n");
     stdout.write(red + "Error!\r\n" + reset);
     console.log(e.message);
     process.exit(1);
@@ -63,7 +64,7 @@ stdout.write("\r\n");
 
 var acl = ("acl" in config ? config.acl : "");
 if ( acl ) {
-	acl = config.acl;
+    acl = config.acl;
 
     stdout.write(magenta + "Global S3 ACL:        " + reset + acl);
     stdout.write("\r\n");
@@ -87,9 +88,9 @@ if ( "backup" in config ) {
     if ( ! backup.directory && ! backup.bucket && ! bucket ) {
         warning.push("Backed up image may save same bucket and directory. This doesn't make any sense.");
     }
-	stdout.write(magenta + "    S3 ACL:           " + reset);
-	stdout.write(( backup.acl ) ? backup.acl : acl ? "[Global ACL]" : "[Source ACL]");
-	stdout.write("\r\n");
+    stdout.write(magenta + "    S3 ACL:           " + reset);
+    stdout.write(( backup.acl ) ? backup.acl : acl ? "[Global ACL]" : "[Source ACL]");
+    stdout.write("\r\n");
 } else {
     stdout.write("Backup option is not supplied, skip it.\r\n");
 }
@@ -99,15 +100,15 @@ stdout.write("Reduce image configuration\r\n");
 stdout.write("--------------------------------\r\n");
 if ( "reduce" in config ) {
     var reduce = config.reduce || {};
-	if ( "quality" in reduce ) {
-		if ( reduce.quality < 0 || reduce.quality > 100 ) {
-			warning.push("'quality' option is illegal. this option must be in range 0-100.");
-		} else {
-			stdout.write(magenta + "    Image Quality:    " + reset);
-			stdout.write(reduce.quality + " (JPG Only)");
-			stdout.write("\r\n");
-		}
-	}
+    if ( "quality" in reduce ) {
+        if ( reduce.quality < 0 || reduce.quality > 100 ) {
+            warning.push("'quality' option is illegal. this option must be in range 0-100.");
+        } else {
+            stdout.write(magenta + "    Image Quality:    " + reset);
+            stdout.write(reduce.quality + " (JPG Only)");
+            stdout.write("\r\n");
+        }
+    }
     stdout.write(magenta + "    Save bucket:      " + reset);
     stdout.write(( reduce.bucket ) ? reduce.bucket : bucket ? bucket : "[Same bucket]");
     stdout.write("\r\n");
@@ -129,9 +130,9 @@ if ( "reduce" in config ) {
         stdout.write(magenta + "    Filename Suffix:  " + reset + reduce.suffix);
         stdout.write("\r\n");
     }
-	stdout.write(magenta + "    S3 ACL:           " + reset);
-	stdout.write(( reduce.acl ) ? reduce.acl : acl ? "[Global ACL]" : "[Source ACL]");
-	stdout.write("\r\n");
+    stdout.write(magenta + "    S3 ACL:           " + reset);
+    stdout.write(( reduce.acl ) ? reduce.acl : acl ? "[Global ACL]" : "[Source ACL]");
+    stdout.write("\r\n");
 } else {
     stdout.write("Reduce option is not supplied, skip it.\r\n");
 }
@@ -145,30 +146,30 @@ stdout.write("\r\n");
 resizes.forEach(function(resize, index) {
     stdout.write("    Resize image " + (index + 1) + " ( of " + resizes.length + " )\r\n");
     stdout.write("    --------------------------------\r\n");
-	if (eventFilename && eventFilename.indexOf(resize.directory) !== 0) {
-		stdout.write(red + "We don't process images in the output folder");
-		stdout.write("\r\n");
-		return
-	}
+    if (eventFilename && eventFilename.indexOf(resize.directory) !== 0) {
+        stdout.write(red + "We don't process images in the output folder");
+        stdout.write("\r\n");
+        return
+    }
     stdout.write(magenta + "    Size:             " + reset + resize.size + "\r\n");
     if ( ! ("size" in resize) ) {
         fatals.push("Resize destination size must be supplied ( at index " + index + " )");
     } else if ( isNaN(parseInt(resize.size, 10)) ) {
         fatals.push("Resize destination size must be a number ( at index " + index + " )");
     }
-	if ( "format" in resize ) {
-		stdout.write(magenta + "    Convert:          " + reset + resize.format);
-		stdout.write("\r\n");
-	}
-	if ( "quality" in resize ) {
-		if ( resize.quality < 0 || resize.quality > 100 ) {
-			warning.push("'quality' option is illegal. this option must be in range 0-100.");
-		} else {
-			stdout.write(magenta + "    Image Quality:    " + reset);
-			stdout.write(resize.quality + " (JPG Only)");
-			stdout.write("\r\n");
-		}
-	}
+    if ( "format" in resize ) {
+        stdout.write(magenta + "    Convert:          " + reset + resize.format);
+        stdout.write("\r\n");
+    }
+    if ( "quality" in resize ) {
+        if ( resize.quality < 0 || resize.quality > 100 ) {
+            warning.push("'quality' option is illegal. this option must be in range 0-100.");
+        } else {
+            stdout.write(magenta + "    Image Quality:    " + reset);
+            stdout.write(resize.quality + " (JPG Only)");
+            stdout.write("\r\n");
+        }
+    }
     stdout.write(magenta + "    Save bucket:      " + reset);
     stdout.write(( resize.bucket ) ? resize.bucket : bucket ? bucket : "[Same bucket]");
     stdout.write("\r\n");
@@ -190,9 +191,9 @@ resizes.forEach(function(resize, index) {
         stdout.write(magenta + "    Filename Suffix:  " + reset + resize.suffix);
         stdout.write("\r\n");
     }
-	stdout.write(magenta + "    S3 ACL:           " + reset);
-	stdout.write(( resize.acl ) ? resize.acl : acl ? "[Global ACL]" : "[Source ACL]");
-	stdout.write("\r\n");
+    stdout.write(magenta + "    S3 ACL:           " + reset);
+    stdout.write(( resize.acl ) ? resize.acl : acl ? "[Global ACL]" : "[Source ACL]");
+    stdout.write("\r\n");
     stdout.write("\r\n");
 });
 
