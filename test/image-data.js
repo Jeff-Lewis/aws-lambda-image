@@ -40,7 +40,7 @@ test("ImageData combineWithDirectory Test", t => {
     t.is(image.combineWithDirectory("d/e", "prefix-", "_suffix"), "d/e/prefix-key_suffix.png");
 });
 
-test.only("Testing key aka. path related methods", t => {
+test("Testing key aka. path related methods", t => {
     const image = new ImageData("a/b/c/key.png", "bucket", "data", {}, "public-read");
 
     // Get full file path
