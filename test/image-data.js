@@ -46,7 +46,7 @@ test("Testing key aka. path related methods", t => {
     // Get full file path
     t.is(image.fileName, "a/b/c/key.png");
 
-    // Get fill patent path
+    // Get full parent path
     t.is(image.dirName, "a/b/c");
 
     // Get file name only
