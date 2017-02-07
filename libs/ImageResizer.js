@@ -12,7 +12,7 @@ class ImageResizer {
      * resize image with ImageMagick
      *
      * @constructor
-     * @param Map options
+     * @param Object options
      */
     constructor(options) {
         this.options = options;

@@ -1,4 +1,4 @@
-.PHONY: test clean configtest
+.PHONY: clean configtest
 AWS_PROFILE ?= "default"
 
 lambda:
