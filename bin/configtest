@@ -85,7 +85,7 @@ if ( "backup" in config ) {
     }
     stdout.write("\r\n");
     if ( ! backup.directory && ! backup.bucket && ! bucket ) {
-        warning.push("Backuped image may save same bucket and directory. This doesn't make any sense.");
+        warning.push("Backed up image may save same bucket and directory. This doesn't make any sense.");
     }
 	stdout.write(magenta + "    S3 ACL:           " + reset);
 	stdout.write(( backup.acl ) ? backup.acl : acl ? "[Global ACL]" : "[Source ACL]");
