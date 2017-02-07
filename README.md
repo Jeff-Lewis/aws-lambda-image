@@ -47,7 +47,7 @@ Configuration is simple, see below:
 {
   "bucket": "your-destination-bucket",
   "backup": {
-      "directory": "./original",
+      "directory": "./original"
   },
   "reduce": {
       "directory": "./reduced",

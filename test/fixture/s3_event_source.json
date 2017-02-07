@@ -3,8 +3,8 @@
     {
       "s3": {
         "bucket": {
-          "name": "test.avosoftware.net",
-          "arn": "arn:aws:s3:::test.avosoftware.net",
+          "name": "test.secretescapes.com",
+          "arn": "arn:aws:s3:::test.secretescapes.com",
           "ownerIdentity": {
             "principalId": "ABCDEFG12345678"
           }
@@ -14,7 +14,7 @@
         "object": {
           "size": 100882,
           "eTag": "2466acb79a876d5d144368b9452dc178",
-          "key": "sales-test/25/original.jpg",
+          "key": "sales-upload/25/original.jpg",
           "sequencer": "ABCDEFG12345678"
         }
       },
