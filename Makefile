@@ -29,7 +29,7 @@ testlambda:
 
 
 configtest:
-	@./bin/configtest
+	@./bin/configtest ${EVENT}
 
 clean:
 	@echo "clean up package files"
