@@ -57,8 +57,8 @@ test("Reduce JPEG with basic configuration", async t => {
     t.is(images.length, 1);
     const image = images.shift();
     const fixture = await fsP.readFile(`${__dirname}/fixture/fixture.jpg`);
-    t.is(image.bucketName, "test.avosoftware.net");
-    t.is(image.fileName, "sales-test/25/original.jpg");
+    t.is(image.bucketName, "test.secretescapes.com");
+    t.is(image.fileName, "sales-upload/25/original.jpg");
     t.true(image.data.length > 0);
     t.true(image.data.length < fixture.length);
 });
