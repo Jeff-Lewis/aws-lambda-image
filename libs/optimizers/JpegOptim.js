@@ -9,11 +9,17 @@ class Jpegoptim extends Optimizer {
      * @constructor
      * @extends Optimizer
      */
-    constructor() {
+    constructor(quality) {
         super();
 
         this.command = this.findBin("jpegoptim");
         this.args    = ["--stdin", "-s", "--all-progressive", "--stdout"];
+
+        // determine quality if supplied
+        if ( quality ) {
+            this.args.unshift(quality);
+            this.args.unshift("-m");
+        }
     }
 }
 
