@@ -43,7 +43,7 @@ class ImageReducer {
                 option.bucket || image.bucketName,
                 buffer,
                 image.headers,
-                option.acl
+                option.acl || image.acl
             );
         });
     }

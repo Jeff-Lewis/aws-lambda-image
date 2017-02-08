@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ysugimoto/aws-lambda-image.svg?branch=master)](https://travis-ci.org/ysugimoto/aws-lambda-image)
 [![Code Climate](https://codeclimate.com/github/ysugimoto/aws-lambda-image/badges/gpa.svg)](https://codeclimate.com/github/ysugimoto/aws-lambda-image)
+[![Coverage Status](https://coveralls.io/repos/github/ysugimoto/aws-lambda-image/badge.svg?branch=master)](https://coveralls.io/github/ysugimoto/aws-lambda-image?branch=master)
 [![npm version](https://badge.fury.io/js/aws-lambda-image.svg)](https://badge.fury.io/js/aws-lambda-image)
 [![Join the chat at https://gitter.im/aws-lambda-image](https://img.shields.io/badge/GITTER-join%20chat-green.svg)](https://gitter.im/aws-lambda-image?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -20,8 +21,12 @@ Clone this repository and install dependencies:
 ```bash
 $ git clone git@github.com:ysugimoto/aws-lambda-image.git
 $ cd aws-lambda-image
-$ npm install .
+$ NODE_ENV=production npm install .
 ```
+
+When upload to Lambda, the project will bundle all files. So we should ignore development packages (e.g. test tools)
+
+If you are developper, please install all packages :-)
 
 ### Packaging
 
@@ -47,7 +52,7 @@ Configuration is simple, see below:
 {
   "bucket": "your-destination-bucket",
   "backup": {
-      "directory": "./original",
+      "directory": "./original"
   },
   "reduce": {
       "directory": "./reduced",
@@ -89,38 +94,54 @@ Configuration is simple, see below:
 
 #### Configuration Parameters
 
-|  name  |    field    |   type  |                                                               description                                                               |
-|:------:|:-----------:|:-------:|---------------------------------------------------------------------------------------------------------------------------------------  |
-| bucket |      -      |  String | Destination bucket name at S3 to put processed image. If not supplied, it will use same bucket of event source.                         |
-| backup |      -      |  Object | Backup original file setting.                                                                                                           |
-|        |  directory  |  String | Image directory path. When starts with `./` relative to the source, otherwise creates a new tree.                                       |
-|        |    bucket   |  String | Destination bucket to override. If not supplied, it will use `bucket` setting.                                                          |
-| reduce |      -      |  Object | Reduce setting following fields.                                                                                                        |
-|        |  directory  |  String | Image directory path. When starts with `./` relative to the source, otherwise creates a new tree.                                       |
-|        |    prefix   |  String | Append filename prefix if supplied.                                                                                                     |
-|        |    suffix   |  String | Append filename suffix if supplied.                                                                                                     |
-|        |   quality   |  Number | Determine reduced image quality ( enables only `JPG` ).                                                                                 |
-|        |    bucket   |  String | Destination bucket to override. If not supplied, it will use `bucket` setting.                                                          |
-|        |     acl     |  String | Permission of S3 object. [See acl values](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property).           |
-| resize |      -      |  Array  | Resize setting list of following fields.                                                                                                |
-|        |  background |  String | Background color to use for transparent pixels when destination image doesn't support transparency.                                     |
-|        |    bucket   |  String | Destination bucket to override. If not supplied, it will use `bucket` setting.                                                          |
-|        |     crop    |  String | Dimensions to crop the image. [See ImageMagick crop documentation](http://imagemagick.org/script/command-line-options.php#crop).        |
-|        |  directory  |  String | Image directory path. When starts with `./` relative to the source, otherwise creates a new tree.                                       |
-|        |    prefix   |  String | Append filename prefix if supplied.                                                                                                     |
-|        |    suffix   |  String | Append filename suffix if supplied.                                                                                                     |
-|        |   gravity   |  String | Changes how `size` and `crop`. [See ImageMagick gravity documentation](http://imagemagick.org/script/command-line-options.php#gravity). |
-|        |   quality   |  Number | Determine reduced image quality ( forces format `JPG` ).                                                                                |
-|        |    format   |  String | Image format override. If not supplied, it will leave the image in original format.                                                     |
-|        |     size    |  String | Image dimensions. [See ImageMagick geometry documentation](http://imagemagick.org/script/command-line-processing.php#geometry).         |
-|        | orientation | Boolean | Auto orientation if value is `true`.                                                                                                    |
-|        |     acl     |  String | Permission of S3 object. [See acl values](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property).           |
+|  name  |    field    |   type  |                                                               description                                                                 |
+|:------:|:-----------:|:-------:|-------------------------------------------------------------------------------------------------------------------------------------------|
+| bucket |      -      |  String | Destination bucket name at S3 to put processed image. If not supplied, it will use same bucket of event source.                           |
+|  acl   |      -      |  String | Permission of S3 object. [See AWS ACL documentation](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property).  |
+| backup |      -      |  Object | Backup original file setting.                                                                                                             |
+|        |  directory  |  String | Image directory path. When starts with `./` relative to the source, otherwise creates a new tree.                                         |
+|        |    prefix   |  String | Prepend filename prefix if supplied.                                                                                                       |
+|        |    suffix   |  String | Append filename suffix if supplied.                                                                                                       |
+|        |    bucket   |  String | Destination bucket to override. If not supplied, it will use `bucket` setting.                                                            |
+|        |     acl     |  String | Permission of S3 object. [See AWS ACL documentation](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property).  |
+| reduce |      -      |  Object | Reduce setting following fields.                                                                                                          |
+|        |  directory  |  String | Image directory path. When starts with `./` relative to the source, otherwise creates a new tree.                                         |
+|        |    prefix   |  String | Prepend filename prefix if supplied.                                                                                                       |
+|        |    suffix   |  String | Append filename suffix if supplied.                                                                                                       |
+|        |   quality   |  Number | Determine reduced image quality ( enables only `JPG` ).                                                                                   |
+|        |    bucket   |  String | Destination bucket to override. If not supplied, it will use `bucket` setting.                                                            |
+|        |     acl     |  String | Permission of S3 object. [See AWS ACL documentation](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property).  |
+| resize |      -      |  Array  | Resize setting list of following fields.                                                                                                  |
+|        |  background |  String | Background color to use for transparent pixels when destination image doesn't support transparency.                                       |
+|        |    bucket   |  String | Destination bucket to override. If not supplied, it will use `bucket` setting.                                                            |
+|        |     crop    |  String | Dimensions to crop the image. [See ImageMagick crop documentation](http://imagemagick.org/script/command-line-options.php#crop).          |
+|        |  directory  |  String | Image directory path. When starts with `./` relative to the source, otherwise creates a new tree.                                         |
+|        |    prefix   |  String | Prepend filename prefix if supplied.                                                                                                       |
+|        |    suffix   |  String | Append filename suffix if supplied.                                                                                                       |
+|        |   gravity   |  String | Changes how `size` and `crop`. [See ImageMagick gravity documentation](http://imagemagick.org/script/command-line-options.php#gravity).   |
+|        |   quality   |  Number | Determine reduced image quality ( forces format `JPG` ).                                                                                  |
+|        |    format   |  String | Image format override. If not supplied, it will leave the image in original format.                                                       |
+|        |     size    |  String | Image dimensions. [See ImageMagick geometry documentation](http://imagemagick.org/script/command-line-processing.php#geometry).           |
+|        | orientation | Boolean | Auto orientation if value is `true`.                                                                                                      |
+|        |     acl     |  String | Permission of S3 object. [See AWS ACL documentation](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property).  |
+
+#### Testing Configuration
 
 If you want to check how this works with your configuration, you can use `configtest`:
 
 ```bash
 $ make configtest
 ```
+
+#### ACL inheritance hierarchy
+
+If action specific `acl` parameter is not provided, the glocal `acl` parameter is taken into account. If non of both is
+set, then the new created file will inherit the `acl` settings from the original file.
+
+#### Preserving Metadata
+
+For now there is now way to decide if you want or not to populate `Metadata` from original filr to newly created files.
+By default all original `Metadata` are preserved.
 
 ### Deployment
 

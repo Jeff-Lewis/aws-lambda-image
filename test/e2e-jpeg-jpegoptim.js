@@ -58,8 +58,8 @@ test("Reduce JPEG with basic configuration", async t => {
     t.is(images.length, 1);
     const image = images.shift();
     const fixture = await fsP.readFile(`${__dirname}/fixture/fixture.jpg`);
-    t.is(image.bucketName, "sourcebucket");
-    t.is(image.fileName, "HappyFace.jpg");
+    t.is(image.bucketName, "test.secretescapes.com");
+    t.is(image.fileName, "sales-upload/25/original.jpg");
     t.true(image.data.length > 0);
     t.true(image.data.length < fixture.length);
 });
@@ -68,15 +68,14 @@ test("Reduce JPEG with bucket/directory configuration", async t => {
     await processor.run(new Config({
         "reduce": {
             "bucket": "foo",
-            "directory": "some",
-            "jpegOptimizer": "jpegoptim"
+            "directory": "some"
         }
     }));
     t.is(images.length, 1);
     const image = images.shift();
     const fixture = await fsP.readFile(`${__dirname}/fixture/fixture.jpg`);
     t.is(image.bucketName, "foo");
-    t.is(image.fileName, "some/HappyFace.jpg");
+    t.is(image.fileName, "some/original.jpg");
     t.true(image.data.length > 0);
     t.true(image.data.length < fixture.length);
 });

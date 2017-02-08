@@ -4,7 +4,7 @@ const ImageData = require("../libs/ImageData");
 const test      = require("ava");
 
 test("ImageData combineWithDirectory Test", t => {
-    const image = new ImageData("a/b/c/key.png", "bucket", "data", {});
+    const image = new ImageData("a/b/c/key.png", "bucket", "data", {}, "public-read");
 
     // No directory
     t.is(image.combineWithDirectory(undefined), "a/b/c/key.png");
@@ -39,3 +39,16 @@ test("ImageData combineWithDirectory Test", t => {
     // With prefix and suffix
     t.is(image.combineWithDirectory("d/e", "prefix-", "_suffix"), "d/e/prefix-key_suffix.png");
 });
+
+test("Testing key aka. path related methods", t => {
+    const image = new ImageData("a/b/c/key.png", "bucket", "data", {}, "public-read");
+
+    // Get full file path
+    t.is(image.fileName, "a/b/c/key.png");
+
+    // Get full parent path
+    t.is(image.dirName, "a/b/c");
+
+    // Get file name only
+    t.is(image.baseName, "key.png");
+})

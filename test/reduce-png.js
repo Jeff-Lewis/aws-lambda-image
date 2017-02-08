@@ -13,5 +13,6 @@ test("Reduce PNG", async t => {
     const image = new ImageData("fixture/fixture.png", "fixture", fixture);
 
     const reduced = await reducer.exec(image);
+    t.true(reduced.data.length > 0);
     t.true(reduced.data.length < fixture.length);
 });
