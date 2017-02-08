@@ -69,9 +69,9 @@ class ImageReducer {
             case "jpeg":
                 // switch JPEG optimizer
                 if ( this.option.jpegOptimizer === "jpegoptim" ) { // using jpegoptim
-                    streams.push( new Mozjpeg( this.option.quality ) );
-                } else {                                           // using mozjpeg
                     streams.push( new JpegOptim( this.option.quality ) );
+                } else {                                           // using mozjpeg
+                    streams.push( new Mozjpeg( this.option.quality ) );
                 }
                 break;
             case "gif":
