@@ -111,10 +111,10 @@ stdout.write("\r\n");
 if ( fatals.length === 0 && warning.length === 0 ) {
     stdout.write(green + "Your configuration is green!\r\n" + reset);
 } else {
-    fatals.forEach(function(f) {
+    new Set(fatals).forEach(function(f) {
         stdout.write(red + "[Fatal] " + f + "\r\n" + reset);
     });
-    warning.forEach(function(n) {
+    new Set(warning).forEach(function(n) {
         stdout.write(red + "[Warning] " + n + "\r\n" + reset);
     });
 }
