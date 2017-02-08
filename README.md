@@ -109,7 +109,7 @@ Configuration is simple, see below:
 |        |    prefix     |  String | Prepend filename prefix if supplied.                                                                                                      |
 |        |    suffix     |  String | Append filename suffix if supplied.                                                                                                       |
 |        |   quality     |  Number | Determine reduced image quality ( only `JPG` ).                                                                                           |
-|        | jpegOptimizer |  String | Determine optimiser: `cjpeg` for MozJpeg (default) or `jpegoptim` for JpegOptim ( only `JPG` ).                                           |
+|        | jpegOptimizer |  String | Determine optimiser: `mozjpeg` for MozJpeg (default) or `jpegoptim` for JpegOptim ( only `JPG` ).                                           |
 |        |    bucket     |  String | Destination bucket to override. If not supplied, it will use `bucket` setting.                                                            |
 |        |     acl       |  String | Permission of S3 object. [See AWS ACL documentation](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property).  |
 | resize |      -        |  Array  | Resize setting list of following fields.                                                                                                  |
@@ -121,7 +121,7 @@ Configuration is simple, see below:
 |        |    suffix     |  String | Append filename suffix if supplied.                                                                                                       |
 |        |   gravity     |  String | Changes how `size` and `crop`. [See ImageMagick gravity documentation](http://imagemagick.org/script/command-line-options.php#gravity).   |
 |        |   quality     |  Number | Determine reduced image quality ( forces format `JPG` ).                                                                                  |
-|        | jpegOptimizer |  String | Determine optimiser: `cjpeg` for MozJpeg (default) or `jpegoptim` for JpegOptim ( only `JPG` ).                                           |
+|        | jpegOptimizer |  String | Determine optimiser: `mozjpeg` for MozJpeg (default) or `jpegoptim` for JpegOptim ( only `JPG` ).                                           |
 |        |    format     |  String | Image format override. If not supplied, it will leave the image in original format.                                                       |
 |        |     size      |  String | Image dimensions. [See ImageMagick geometry documentation](http://imagemagick.org/script/command-line-processing.php#geometry).           |
 |        | orientation   | Boolean | Auto orientation if value is `true`.                                                                                                      |
