@@ -27,7 +27,6 @@ testlambda:
 	aws --profile ${AWS_PROFILE} lambda invoke --function-name ${LAMBDA_FUNCTION_NAME} \
 		--invocation-type Event --payload file://test/fixture/s3_event_source.json /dev/null
 
-
 configtest:
 	@./bin/configtest
 

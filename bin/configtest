@@ -69,6 +69,7 @@ stdout.write("--------------------------------\r\n");
 if ( "backup" in config ) {
     var backup = config.backup || {};
     validateDestination(stdout, bucket, backup.bucket, backup.directory);
+    validatePrefixAndSuffix(stdout, backup.prefix, backup.suffix);
     validateAcl(stdout, acl, backup.acl);
 } else {
     stdout.write("Backup option is not supplied, skip it.\r\n");

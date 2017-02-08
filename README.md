@@ -100,11 +100,13 @@ Configuration is simple, see below:
 |  acl   |      -      |  String | Permission of S3 object. [See AWS ACL documentation](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property).  |
 | backup |      -      |  Object | Backup original file setting.                                                                                                             |
 |        |  directory  |  String | Image directory path. When starts with `./` relative to the source, otherwise creates a new tree.                                         |
+|        |    prefix   |  String | Prepend filename prefix if supplied.                                                                                                       |
+|        |    suffix   |  String | Append filename suffix if supplied.                                                                                                       |
 |        |    bucket   |  String | Destination bucket to override. If not supplied, it will use `bucket` setting.                                                            |
 |        |     acl     |  String | Permission of S3 object. [See AWS ACL documentation](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property).  |
 | reduce |      -      |  Object | Reduce setting following fields.                                                                                                          |
 |        |  directory  |  String | Image directory path. When starts with `./` relative to the source, otherwise creates a new tree.                                         |
-|        |    prefix   |  String | Append filename prefix if supplied.                                                                                                       |
+|        |    prefix   |  String | Prepend filename prefix if supplied.                                                                                                       |
 |        |    suffix   |  String | Append filename suffix if supplied.                                                                                                       |
 |        |   quality   |  Number | Determine reduced image quality ( enables only `JPG` ).                                                                                   |
 |        |    bucket   |  String | Destination bucket to override. If not supplied, it will use `bucket` setting.                                                            |
@@ -114,7 +116,7 @@ Configuration is simple, see below:
 |        |    bucket   |  String | Destination bucket to override. If not supplied, it will use `bucket` setting.                                                            |
 |        |     crop    |  String | Dimensions to crop the image. [See ImageMagick crop documentation](http://imagemagick.org/script/command-line-options.php#crop).          |
 |        |  directory  |  String | Image directory path. When starts with `./` relative to the source, otherwise creates a new tree.                                         |
-|        |    prefix   |  String | Append filename prefix if supplied.                                                                                                       |
+|        |    prefix   |  String | Prepend filename prefix if supplied.                                                                                                       |
 |        |    suffix   |  String | Append filename suffix if supplied.                                                                                                       |
 |        |   gravity   |  String | Changes how `size` and `crop`. [See ImageMagick gravity documentation](http://imagemagick.org/script/command-line-options.php#gravity).   |
 |        |   quality   |  Number | Determine reduced image quality ( forces format `JPG` ).                                                                                  |

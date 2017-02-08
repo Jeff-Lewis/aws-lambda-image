@@ -78,3 +78,18 @@ test("Reduce JPEG with bucket/directory configuration", async t => {
     t.true(image.data.length > 0);
     t.true(image.data.length < fixture.length);
 });
+
+test("Backup JPEG with prefix and suffix", async t => {
+    await processor.run(new Config({
+        backup: {
+            prefix: "a_",
+            suffix: "_b"
+        }
+    }));
+    t.is(images.length, 1);
+    const image = images.shift();
+    const fixture = await fsP.readFile(`${__dirname}/fixture/fixture.jpg`);
+    t.is(image.bucketName, "test.secretescapes.com");
+    t.is(image.fileName, "sales-upload/25/a_original_b.jpg");
+    t.true(image.data.length === fixture.length);
+});

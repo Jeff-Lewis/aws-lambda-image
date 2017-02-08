@@ -30,7 +30,7 @@ class ImageArchiver {
 
             resolve(
                 new ImageData(
-                    image.combineWithDirectory(option.directory),
+                    image.combineWithDirectory(option.directory, option.prefix, option.suffix),
                     option.bucket || image.bucketName,
                     image.data,
                     image.headers,

@@ -17,7 +17,7 @@ test.before(async t => {
 	image = new ImageData("fixture/fixture.jpg", "fixture", fixture, {}, "private");
 });
 
-test("If ACL parameter is passed while resizing use original pme", async t => {
+test("If ACL parameter is passed while resizing use original one", async t => {
 	const resizer = new ImageResizer({size: 200});
 	const resized = await resizer.exec(image);
 

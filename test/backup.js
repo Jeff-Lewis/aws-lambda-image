@@ -13,7 +13,7 @@ test.before(async t => {
     image = new ImageData("fixture/fixture.jpg", "fixture", fixture, {}, "private");
 });
 
-test("If ACL parameter is passed while reducing use original pme", async t => {
+test("If ACL parameter is passed while reducing use original one", async t => {
     const reducer = new ImageArchiver({});
     const reduced = await reducer.exec(image);
 
