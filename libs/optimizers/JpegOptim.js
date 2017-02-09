@@ -8,6 +8,7 @@ class Jpegoptim extends Optimizer {
      *
      * @constructor
      * @extends Optimizer
+     * @param Number|undefined quality
      */
     constructor(quality) {
         super();

@@ -62,13 +62,15 @@ class ImageReducer {
         const streams = [];
         switch ( type ) {
             case "png":
-                streams.push(new Pngquant());
-                streams.push(new Pngout());
+                if ( this.option.optimizer === "pngout" ) { // using pngout
+                    streams.push( new Pngout() );
+                } else {                                           // using pngquant
+                    streams.push( new Pngquant() );
+                }
                 break;
             case "jpg":
             case "jpeg":
-                // switch JPEG optimizer
-                if ( this.option.jpegOptimizer === "jpegoptim" ) { // using jpegoptim
+                if ( this.option.optimizer === "jpegoptim" ) { // using jpegoptim
                     streams.push( new JpegOptim( this.option.quality ) );
                 } else {                                           // using mozjpeg
                     streams.push( new Mozjpeg( this.option.quality ) );
@@ -78,7 +80,7 @@ class ImageReducer {
                 streams.push(new Gifsicle());
                 break;
             default:
-                throw new Error("Unexpected output type: " + outputType);
+                throw new Error("Unexpected output type: " + type);
         }
 
         return streams;
