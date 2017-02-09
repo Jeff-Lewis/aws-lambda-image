@@ -42,13 +42,8 @@ try {
     process.exit(1);
 }
 
-stdout.write(magenta + "JPEG optimizer:       " + reset);
-var optimizer = ( config.jpegOptimizer ) ? config.jpegOptimizer : "mozjpeg";
-if ( optimizer !== "jpegoptim" && optimizer !== "mozjpeg" ) {
-    warning.push("[Warning] JPEG Optimizer is invalid. It accepts 'jpegoptim' or 'mozjpeg'.");
-    optimizer = "mozjpeg";
-}
-stdout.write(optimizer + "\r\n");
+var optimizer = config.optimizer;
+stdout.write(magenta + "Global Optimizer:     " + reset + (optimizer || "Not set") + "\r\n");
 
 var bucket = ( config.bucket ) ? config.bucket : "";
 stdout.write(magenta + "Destination bucket:   " + reset);
@@ -81,6 +76,7 @@ stdout.write("--------------------------------\r\n");
 if ( "reduce" in config ) {
     var reduce = config.reduce || {};
     validateQuality(stdout, reduce.quality);
+    validateOptimizer(stdout, reduce.optimizer || optimizer);
     validateDestination(stdout, bucket, reduce.bucket, reduce.directory);
     validatePrefixAndSuffix(stdout, reduce.prefix, reduce.suffix);
     validateAcl(stdout, acl, reduce.acl);
@@ -100,6 +96,7 @@ resizes.forEach(function(resize, index) {
     validateSize(stdout, resize.size);
     validateFormat(stdout, resize.format);
     validateQuality(stdout, resize.quality);
+    validateOptimizer(stdout, resize.optimizer || optimizer);
     validateDestination(stdout, bucket, resize.bucket, resize.directory);
     validatePrefixAndSuffix(stdout, resize.prefix, resize.suffix);
     validateAcl(stdout, acl, resize.acl);
@@ -146,6 +143,32 @@ function validateQuality(stdout, quality) {
         stdout.write(magenta + "    Image Quality:    " + color + quality + " (JPG Only)" + reset);
         stdout.write("\r\n");
     }
+}
+
+function validateOptimizer(stdout, optimizer) {
+        var color = reset;
+        if ( ["mozjpeg", "jpegoptim", "pngout", "pngquant", undefined].indexOf(optimizer) === -1 ) {
+            warning.push("Optimizer is invalid. It accepts 'jpegoptim', 'mozjpeg', 'pngout', 'pngquant' or undefined only.");
+            color = red;
+        }
+
+        var optimizers;
+        if ( ["mozjpeg", "jpegoptim"].indexOf(optimizer) !== -1 ) {
+            optimizers = optimizer + " (JPG Only)";
+            optimizers += "\r\n                      ";
+            optimizers += "default (PNG Only)";
+        } else if ( [ "pngout", "pngquant" ].indexOf(optimizer) !== -1 ) {
+            optimizers = "default (JPG Only)";
+            optimizers += "\r\n                      ";
+            optimizers += optimizer + " (PNG Only)";
+        } else {
+            optimizers = "default (JPG Only)";
+            optimizers += "\r\n                      ";
+            optimizers += "default (PNG Only)";
+        }
+
+        stdout.write(magenta + "    Optimizers:       " + color + optimizers + reset);
+        stdout.write("\r\n");
 }
 
 function validateFormat(stdout, format) {

@@ -45,14 +45,14 @@ test.beforeEach(() => {
 });
 
 test("Reduce JPEG with no configuration", async t => {
-    await processor.run(new Config({jpegOptimizer: "jpegoptim"}));
+    await processor.run(new Config({optimizer: "jpegoptim"}));
     // no working
     t.is(images.length, 0);
 });
 
 test("Reduce JPEG with basic configuration", async t => {
     await processor.run(new Config({
-        jpegOptimizer: "jpegoptim",
+        optimizer: "jpegoptim",
         reduce: {}
     }));
     t.is(images.length, 1);

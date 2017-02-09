@@ -46,49 +46,41 @@ class ImageProcessor {
      * @return Promise
      */
     processImage(imageData, config) {
-        const jpegOptimizer = config.get("jpegOptimizer", "mozjpeg");
+        const optimizer = config.get("optimizer");
+        const bucket = config.get("bucket");
+        const acl = config.get("acl");
+
         let promise = new Promise((resolve) => { resolve() });
         let processedImages = 0;
 
         if ( config.exists("backup") ) {
             const backup = config.get("backup");
+            backup.bucket = backup.bucket || bucket;
+            backup.acl = backup.acl || acl;
 
-            if ( ! backup.bucket ) {
-                backup.bucket = config.get("bucket");
-            }
-            if ( ! backup.acl ) {
-                backup.acl = config.get("acl");
-            }
             promise = promise.then(() => this.execBackupImage(backup, imageData).then(S3.putObject));
             processedImages++;
         }
 
         if ( config.exists("reduce") ) {
             const reduce = config.get("reduce");
+            reduce.bucket = reduce.bucket || bucket;
+            reduce.acl = reduce.acl || acl;
+            reduce.optimizer = reduce.optimizer || optimizer;
 
-            if ( ! reduce.bucket ) {
-                reduce.bucket = config.get("bucket");
-            }
-            if ( ! reduce.acl ) {
-                reduce.acl = config.get("acl");
-            }
-            reduce.jpegOptimizer = reduce.jpegOptimizer || jpegOptimizer;
             promise = promise.then(() => this.execReduceImage(reduce, imageData).then(S3.putObject));
             processedImages++;
         }
 
-        config.get("resizes", []).filter((option) => {
-            return option.size &&
-                imageData.fileName.indexOf(option.directory) !== 0 // don't process images in the output folder
-        }).forEach((option) => {
-            if ( ! option.bucket ) {
-                option.bucket = config.get("bucket");
-            }
-            if ( ! option.acl ){
-                option.acl = config.get("acl");
-            }
-            option.jpegOptimizer = option.jpegOptimizer || jpegOptimizer;
-            promise = promise.then(() => this.execResizeImage(option, imageData).then(S3.putObject));
+        config.get("resizes", []).filter((resize) => {
+            return resize.size && //TODO: fix cases where source dir 'sales-upload' and dest like `sales` being excluded
+                imageData.fileName.indexOf(resize.directory) !== 0 // don't process images in the output folder
+        }).forEach((resize) => {
+            resize.bucket = resize.bucket || bucket;
+            resize.acl = resize.acl || acl;
+            resize.optimizer = resize.optimizer || optimizer;
+
+            promise = promise.then(() => this.execResizeImage(resize, imageData).then(S3.putObject));
             processedImages++;
         });
 

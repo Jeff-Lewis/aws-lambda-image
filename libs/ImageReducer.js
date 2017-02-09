@@ -2,12 +2,12 @@
 
 const ImageData      = require("./ImageData");
 const Mozjpeg        = require("./optimizers/Mozjpeg");
+const JpegOptim      = require("./optimizers/JpegOptim");
 const Pngquant       = require("./optimizers/Pngquant");
 const Pngout         = require("./optimizers/Pngout");
 const Gifsicle       = require("./optimizers/Gifsicle");
 const ReadableStream = require("./ReadableImageStream");
 const StreamChain    = require("./StreamChain");
-// const JpegOptim    = require("./optimizers/JpegOptim");
 
 class ImageReducer {
 
@@ -60,38 +60,27 @@ class ImageReducer {
         console.log("Reducing to: " + (this.option.directory || "in-place"));
 
         const streams = [];
-
-        let outputType;
-
-        if ( type == "gif" ) {
-            outputType = type;
-        } else if ( "quality" in this.option ) {
-            outputType = "jpg"; // force JPEG when quality given
-        } else if ( "format" in this.option ) {
-            outputType = this.option.format;
-        } else {
-            outputType = type;
-        }
-
-        switch ( outputType ) {
+        switch ( type ) {
             case "png":
-                streams.push(new Pngquant());
-                streams.push(new Pngout());
+                if ( this.option.optimizer === "pngout" ) { // using pngout
+                    streams.push( new Pngout() );
+                } else {                                           // using pngquant
+                    streams.push( new Pngquant() );
+                }
                 break;
             case "jpg":
             case "jpeg":
-                streams.push(new Mozjpeg(this.option.quality));
-                // switch JPEG optimizer
-                // if ( this.option.jpegOptimizer === "jpegoptim" ) { // using jpegoptim
-                //     streams.push(new JpegOptim());
-                // } else {                                           // using mozjpeg
-                // }
+                if ( this.option.optimizer === "jpegoptim" ) { // using jpegoptim
+                    streams.push( new JpegOptim( this.option.quality ) );
+                } else {                                           // using mozjpeg
+                    streams.push( new Mozjpeg( this.option.quality ) );
+                }
                 break;
             case "gif":
                 streams.push(new Gifsicle());
                 break;
             default:
-                throw new Error("Unexcepted output type: " + outputType);
+                throw new Error("Unexpected output type: " + type);
         }
 
         return streams;

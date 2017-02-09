@@ -7,12 +7,12 @@ const pify         = require("pify");
 const fs           = require("fs");
 const fsP          = pify(fs);
 
-test("Reduce GIF Test", async t => {
+test("Reduce GIF", async t => {
     const fixture = await fsP.readFile(`${__dirname}/fixture/fixture.gif`);
-    const reducer = new ImageReducer({quality: 90});
+    const reducer = new ImageReducer();
     const image = new ImageData("fixture/fixture.gif", "fixture", fixture);
 
     const reduced = await reducer.exec(image);
-    t.true(reduced.data.length > 0);
-    t.true(reduced.data.length < fixture.length);
+    t.is(reduced.data.length, 28312);
+    t.is(fixture.length, 28416);
 });
