@@ -201,7 +201,7 @@ processor.run(config)
 
 ### Image reduce tools
 
-- [cjpeg](https://github.com/LuaDist/libjpeg)
+- [cjpeg](https://github.com/mozilla/mozjpeg)
 - [jpegoptim](https://github.com/tjko/jpegoptim)
 - [pngquant](https://pngquant.org/)
 - [pngout](http://www.jonof.id.au/pngout)
