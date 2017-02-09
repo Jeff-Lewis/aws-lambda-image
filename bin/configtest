@@ -42,6 +42,9 @@ try {
     process.exit(1);
 }
 
+var optimizer = config.optimizer;
+stdout.write(magenta + "Global Optimizer:     " + reset + (optimizer || "Not set") + "\r\n");
+
 var bucket = ( config.bucket ) ? config.bucket : "";
 stdout.write(magenta + "Destination bucket:   " + reset);
 stdout.write(( bucket ) ? bucket : "[Same bucket]");
@@ -73,7 +76,7 @@ stdout.write("--------------------------------\r\n");
 if ( "reduce" in config ) {
     var reduce = config.reduce || {};
     validateQuality(stdout, reduce.quality);
-    validateOptimizer(stdout, reduce.optimizer);
+    validateOptimizer(stdout, reduce.optimizer || optimizer);
     validateDestination(stdout, bucket, reduce.bucket, reduce.directory);
     validatePrefixAndSuffix(stdout, reduce.prefix, reduce.suffix);
     validateAcl(stdout, acl, reduce.acl);
@@ -93,7 +96,7 @@ resizes.forEach(function(resize, index) {
     validateSize(stdout, resize.size);
     validateFormat(stdout, resize.format);
     validateQuality(stdout, resize.quality);
-    validateOptimizer(stdout, resize.optimizer);
+    validateOptimizer(stdout, resize.optimizer || optimizer);
     validateDestination(stdout, bucket, resize.bucket, resize.directory);
     validatePrefixAndSuffix(stdout, resize.prefix, resize.suffix);
     validateAcl(stdout, acl, resize.acl);
