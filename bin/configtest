@@ -42,14 +42,6 @@ try {
     process.exit(1);
 }
 
-stdout.write(magenta + "JPEG optimizer:       " + reset);
-var optimizer = ( config.jpegOptimizer ) ? config.jpegOptimizer : "mozjpeg";
-if ( optimizer !== "jpegoptim" && optimizer !== "mozjpeg" ) {
-    warning.push("[Warning] JPEG Optimizer is invalid. It accepts 'jpegoptim' or 'mozjpeg'.");
-    optimizer = "mozjpeg";
-}
-stdout.write(optimizer + "\r\n");
-
 var bucket = ( config.bucket ) ? config.bucket : "";
 stdout.write(magenta + "Destination bucket:   " + reset);
 stdout.write(( bucket ) ? bucket : "[Same bucket]");
@@ -151,15 +143,16 @@ function validateQuality(stdout, quality) {
 }
 
 function validateOptimizer(stdout, optimizer) {
-    if ( optimizer ) {
-        var color = reset;
-        if ( ["mozjpeg", "jpegoptim"].indexOf(optimizer) === -1) {
-            warning.push("Invalid value of 'jpegOptimizer' option. Should be 'mozjpeg' or 'jpegoptim'.");
-            color = red;
-        }
-        stdout.write(magenta + "    JPEG Optimizer:   " + color + optimizer + " (JPG Only)" + reset);
-        stdout.write("\r\n");
+    optimizer = optimizer || "mozjpeg";
+
+    var color = reset;
+    if ( ["mozjpeg", "jpegoptim"].indexOf(optimizer) === -1) {
+        warning.push("[Warning] JPEG Optimizer is invalid. It accepts 'jpegoptim' or 'mozjpeg'.");
+        color = red;
     }
+
+    stdout.write(magenta + "    JPEG Optimizer:   " + color + optimizer + " (JPG Only)" + reset);
+    stdout.write("\r\n");
 }
 
 function validateFormat(stdout, format) {
