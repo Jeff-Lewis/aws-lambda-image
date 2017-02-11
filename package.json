@@ -3,8 +3,17 @@
   "version": "0.9.2",
   "description": "An AWS Lambda Function to resize/reduce images automatically",
   "scripts": {
+    "postinstall": "[ -f config.json ] || cp config.json.sample config.json",
+	"precreate": "npm run test-config",
+    "create": "claudia create --profile private --region eu-west-1 --version dev --handler index.handler --no-optional-dependencies --timeout 5 --memory 1280",
+    "configure": "claudia add-s3-event-source --profile private --bucket test.secretescapes.com --events s3:ObjectCreated:* --prefix sales-upload/ --suffix .jpg",
+    "release": "claudia set-version --profile private --version production",
+	"preupdate": "npm run test-config",
+    "update": "claudia update --profile private --no-optional-dependencies --keep",
     "test": "nyc ava",
-    "postinstall": "[ -f config.json ] || cp config.json.sample config.json"
+    "test-config": "./bin/configtest",
+    "test-lambda": "claudia test-lambda --profile private --event test/fixture/s3_event_source.json",
+    "destroy": "claudia destroy --profile private"
   },
   "keywords": [
     "aws",
@@ -14,13 +23,14 @@
   "author": "Yoshiaki Sugimoto",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.9.0",
+	"aws-sdk": "^2.12.0",
     "gm": "^1.23.0",
     "image-type": "3.0.0"
   },
   "devDependencies": {
     "ava": "^0.17.0",
     "bind-all": "^1.0.0",
+    "claudia": "^2.7.0",
     "coveralls": "^2.11.15",
     "nyc": "^10.1.2",
     "pify": "^2.3.0",
