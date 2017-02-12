@@ -5,15 +5,15 @@
   "scripts": {
     "postinstall": "[ -f config.json ] || cp config.json.sample config.json",
 	"precreate": "npm run test-config",
-    "create": "claudia create --profile private --region eu-west-1 --version dev --handler index.handler --no-optional-dependencies --timeout 5 --memory 1280",
-    "configure": "claudia add-s3-event-source --profile private --bucket test.secretescapes.com --events s3:ObjectCreated:* --prefix sales-upload/ --suffix .jpg",
+    "create": "claudia create --profile private --region eu-west-1 --version dev --handler index.handler --no-optional-dependencies --timeout 5 --memory 1280 --keep",
+    "postcreate": "claudia add-s3-event-source --profile private --region eu-west-1 --bucket test.secretescapes.com --events s3:ObjectCreated:* --prefix sales-upload/ --suffix .jpg",
     "release": "claudia set-version --profile private --version production",
 	"preupdate": "npm run test-config",
     "update": "claudia update --profile private --no-optional-dependencies --keep",
     "test": "nyc ava",
     "test-config": "./bin/configtest",
-    "test-lambda": "claudia test-lambda --profile private --event test/fixture/s3_event_source.json",
-    "destroy": "claudia destroy --profile private"
+    "test-lambda": "claudia test-lambda --profile private --region eu-west-1 --event test/fixture/s3_event_source.json",
+    "destroy": "claudia destroy --profile private --region eu-west-1"
   },
   "keywords": [
     "aws",
