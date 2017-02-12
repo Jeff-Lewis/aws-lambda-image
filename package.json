@@ -4,11 +4,11 @@
   "description": "An AWS Lambda Function to resize/reduce images automatically",
   "scripts": {
     "postinstall": "[ -f config.json ] || cp config.json.sample config.json",
-	"precreate": "npm run test-config",
+    "precreate": "npm run test-config",
     "create": "claudia create --profile private --region eu-west-1 --version dev --handler index.handler --no-optional-dependencies --timeout 5 --memory 1280 --keep",
     "postcreate": "claudia add-s3-event-source --profile private --region eu-west-1 --bucket test.secretescapes.com --events s3:ObjectCreated:* --prefix sales-upload/ --suffix .jpg",
     "release": "claudia set-version --profile private --version production",
-	"preupdate": "npm run test-config",
+    "preupdate": "npm run test-config",
     "update": "claudia update --profile private --no-optional-dependencies --keep",
     "test": "nyc ava",
     "test-config": "./bin/configtest",
@@ -23,7 +23,7 @@
   "author": "Yoshiaki Sugimoto",
   "license": "MIT",
   "dependencies": {
-	"aws-sdk": "^2.12.0",
+    "aws-sdk": "^2.12.0",
     "gm": "^1.23.0",
     "image-type": "3.0.0"
   },
